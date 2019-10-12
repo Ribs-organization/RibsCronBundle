@@ -6,6 +6,7 @@ use Cron\CronExpression;
 use DateTime;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +15,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RibsCronController extends AbstractController
 {
+    /**
+     * @var ParameterBagInterface
+     */
+    protected $parameterBag;
+
     protected $crons;
+
+    public function __construct(ParameterBagInterface $parameterBag)
+    {
+        $this->parameterBag = $parameterBag;
+    }
 
     /**
      * @Route("/ribs-cron", name="ribs_cron")
@@ -141,7 +152,7 @@ class RibsCronController extends AbstractController
     private function createRecursiveDirFromRoot($path)
     {
         $fs = new Filesystem();
-        $root_dir = $this->container->get("kernel")->getProjectDir() . "/";
+        $root_dir = $this->parameterBag->get('kernel.project_dir') . "/";
         $new_path = $root_dir;
         $folders = explode("/", $path);
 
