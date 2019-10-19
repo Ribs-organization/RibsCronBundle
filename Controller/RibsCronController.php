@@ -36,9 +36,9 @@ class RibsCronController extends AbstractController
     public function cron(Request $request)
     {
         $ip = $request->server->get('REMOTE_ADDR');
-        $allowed_ip_external = explode(", ", $_ENV["IP_CRON_EXTERNAL"]);
+        $allowed_ip_external = explode(", ", $this->getParameter("ribs_cron_ip_external"));
 
-        if (in_array($ip, $allowed_ip_external) || $ip === $_ENV["IP_CRON_INTERNAL"]) {
+        if (in_array($ip, $allowed_ip_external) || $ip === $this->getParameter("ribs_cron_ip_internal")) {
             $this->crons = $this->getParameter("ribs_cron");
             $json_exec = $this->getCronFile();
             $now = new DateTime();
