@@ -36,4 +36,4 @@ Parameters in quote run like standard cron time system.
  
  In you .env file you can add two parameters : 
 IP_CRON_EXTERNAL to add external IP that can call your cron
-IP_CRON_INTERNAL= internals IPS of the server that can call your cron
+IP_CRON_INTERNAL= internal IP of the server that can call your cron
